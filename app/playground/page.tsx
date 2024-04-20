@@ -3,6 +3,18 @@ import TransactionItem from '@/components/TransactionItem';
 import Trend from '@/components/Trend';
 import TransactionSummaryItem from '@/components/TransactionSummaryItem';
 import { Button } from '@/components/ui/Button';
+import { Label } from '@/components/ui/Label';
+import { Input } from '@/components/ui/Input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select';
+import { Checkbox } from '@/components/ui/Checkbox';
 
 export default function Page() {
   return (
@@ -19,10 +31,10 @@ export default function Page() {
         <h2 className='mb-4 text-lg font-mono'>Trend</h2>
         <hr className='mb-4 border-gray-200 dark:border-gray-800' />
         <div className='flex space-x-8'>
-          <Trend type='Income' amount={10_000} prevAmount={9000} />
-          <Trend type='Expenses' amount={8_000} prevAmount={12_000} />
-          <Trend type='Investment' amount={7000} prevAmount={7000} />
-          <Trend type='Savings' amount={500} prevAmount={100} />
+          <Trend type='Income' amount={20_000} prevAmount={15_000} />
+          <Trend type='Expenses' amount={18_000} prevAmount={13_000} />
+          <Trend type='Investment' amount={10_000} prevAmount={7000} />
+          <Trend type='Savings' amount={60_000} prevAmount={50_000} />
         </div>
       </div>
       <div>
@@ -33,19 +45,19 @@ export default function Page() {
             type='Income'
             category='Salary'
             description='Government Salary'
-            amount={20_000}
+            amount={240_000}
           />
           <TransactionItem
             type='Expenses'
             category='Housing'
             description='Mortgage Premium'
-            amount={8000}
+            amount={18_000}
           />
           <TransactionItem
             type='Savings'
             category='Retirement'
             description='Pension Fund'
-            amount={3000}
+            amount={60_000}
           />
           <TransactionItem
             type='Investment'
@@ -57,11 +69,11 @@ export default function Page() {
       </div>
       <div>
         <h2 className='mb-4 text-lg font-mono'>
-          Transactions Summary and Transaction Items for a Specific Date
+          Transactions Summary and Transaction Items for a Specific Month
         </h2>
         <hr className='mb-4 border-gray-200 dark:border-gray-800' />
         <div className='space-y-4'>
-          <TransactionSummaryItem date='2024-04-01' amount={3500} />
+          <TransactionSummaryItem date='2024-04-01' amount={35_833} />
           <hr className='mb-4 border-gray-200 dark:border-gray-800' />
           <TransactionItem
             type='Income'
@@ -73,13 +85,13 @@ export default function Page() {
             type='Expenses'
             category='Housing'
             description='Mortgage Premium'
-            amount={8000}
+            amount={833}
           />
           <TransactionItem
             type='Savings'
             category='Retirement'
             description='Pension Fund'
-            amount={3000}
+            amount={5000}
           />
           <TransactionItem
             type='Investment'
@@ -111,35 +123,25 @@ export default function Page() {
         <hr className='mb-4 border-gray-200 dark:border-gray-800' />
         <div className='grid grid-cols-2 gap-4'>
           <div>
-            <label className='text-gray-700 dark:text-gray-300 block mb-1'>
-              Your name
-            </label>
-            <input
-              type='text'
-              placeholder='Type something here!'
-              className='w-full rounded-md shadow-sm border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-950'
-            />
+            <Label>Your name</Label>
+            <Input type='text' placeholder='Type something here!' />
           </div>
           <div>
-            <label className='text-gray-700 dark:text-gray-300 block mb-1'>
-              City
-            </label>
-            <select className='w-full rounded-md shadow-sm border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-950'>
-              <option value=''>Select a city</option>
-              <option value='lagos'>Lagos</option>
-              <option value='abuja'>Abuja</option>
-              <option value='kano'>Kano</option>
-              <option value='ibadan'>Ibadan</option>
-            </select>
+            <Label>City</Label>
+            <Select>
+              <SelectTrigger className='w-[280px]'>
+                <SelectValue placeholder='Select a city' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='warsaw'>Warsaw</SelectItem>
+                <SelectItem value='berlin'>Berlin</SelectItem>
+                <SelectItem value='london'>London</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className='flex items-center'>
-            <input
-              type='checkbox'
-              className='rounded border-gray-300 text-gray-700 bg-white dark:bg-gray-950 dark:text-gray-500 shadow-sm'
-            />
-            <label className='text-gray-700 dark:text-gray-300 ml-2'>
-              City
-            </label>
+            <Checkbox id='terms' />
+            <Label htmlFor='terms'>Accept terms</Label>
           </div>
         </div>
       </div>
