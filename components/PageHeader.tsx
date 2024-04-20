@@ -3,7 +3,7 @@ import { ModeToggle } from './ModeToggle';
 
 export default function PageHeader({ className }: { className: string }) {
   return (
-    <header className={`flex justify-between items-center ${className}`}>
+    <header className={`flex justify-between items-center p-y-4 ${className}`}>
       <Link
         href='/dashboard'
         className='text-xl hover:underline underline-offset-8 decoration-2'
@@ -11,9 +11,7 @@ export default function PageHeader({ className }: { className: string }) {
         Finance Tracker
       </Link>
       <div className='flex items-center space-x-4'>
-        <div>
-          <ModeToggle />
-        </div>
+        <ModeToggle />
       </div>
     </header>
   );

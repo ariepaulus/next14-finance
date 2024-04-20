@@ -1,26 +1,13 @@
 import { useFormatCurrency as FormatCurrency } from '@/hooks/use-format-currency';
-import {
-  IncomeType,
-  ExpenseType,
-  SavingsType,
-  InvestmentType,
-  TransactionType,
-} from '@/types/types';
-import { HandCoins, Wallet, Landmark, PiggyBank, Pencil } from 'lucide-react';
-
-interface TransactionItemProps {
-  type: TransactionType;
-  category?: ExpenseType | IncomeType | SavingsType | InvestmentType;
-  description: string;
-  amount: number;
-}
+import { HandCoins, Wallet, Landmark, PiggyBank } from 'lucide-react';
+import { ITransactionItem } from '@/types/types';
 
 export default function TransactionItem({
   type,
   category,
   description,
   amount,
-}: TransactionItemProps) {
+}: ITransactionItem) {
   const typesMap = {
     Income: {
       icon: HandCoins,

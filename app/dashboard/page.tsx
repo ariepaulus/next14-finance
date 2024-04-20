@@ -1,3 +1,9 @@
+import TransactionList from '@/app/dashboard/components/TransactionList';
+
 export default function Dashboard() {
-  return <div>Dashboard</div>;
+  return (
+    <section>
+      <TransactionList />
+    </section>
+  );
 }
