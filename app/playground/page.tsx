@@ -13,6 +13,8 @@ import {
   SelectValue,
 } from '@/components/ui/Select';
 import { Checkbox } from '@/components/ui/Checkbox';
+import { Separator } from '@/components/ui/Separator';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 export default function Page() {
   return (
@@ -20,14 +22,14 @@ export default function Page() {
       <h1 className='text-4xl mt-8'>Playground</h1>
       <div>
         <h2 className='mb-4 text-lg font-mono'>PageHeader</h2>
-        <hr className='mb-4 border-gray-200 dark:border-gray-800' />
+        <Separator />
         <div>
           <PageHeader className={''} />
         </div>
       </div>
       <div>
         <h2 className='mb-4 text-lg font-mono'>Trend</h2>
-        <hr className='mb-4 border-gray-200 dark:border-gray-800' />
+        <Separator />
         <div className='flex space-x-8'>
           <Trend type='Income' amount={20_000} prevAmount={15_000} />
           <Trend type='Expenses' amount={18_000} prevAmount={13_000} />
@@ -37,31 +39,35 @@ export default function Page() {
       </div>
       <div>
         <h2 className='mb-4 text-lg font-mono'>Transaction Items</h2>
-        <hr className='mb-4 border-gray-200 dark:border-gray-800' />
+        <Separator />
         <div className='space-y-4'>
           <TransactionItem
             type='Income'
             category='Salary'
             description='Government Salary'
             amount={240_000}
+            created_at=''
           />
           <TransactionItem
             type='Expenses'
             category='Housing'
             description='Mortgage Premium'
             amount={18_000}
+            created_at=''
           />
           <TransactionItem
             type='Savings'
             category='Retirement'
             description='Pension Fund'
             amount={60_000}
+            created_at=''
           />
           <TransactionItem
             type='Investment'
             category='Property'
             description='Rental Income'
             amount={10_000}
+            created_at=''
           />
         </div>
       </div>
@@ -69,39 +75,43 @@ export default function Page() {
         <h2 className='mb-4 text-lg font-mono'>
           Transactions Summary and Transaction Items for a Specific Month
         </h2>
-        <hr className='mb-4 border-gray-200 dark:border-gray-800' />
+        <Separator />
         <div className='space-y-4'>
           <TransactionSummaryItem date='2024-04-01' amount={35_833} />
-          <hr className='mb-4 border-gray-200 dark:border-gray-800' />
+          <Separator />
           <TransactionItem
             type='Income'
             category='Salary'
             description='Government Salary'
             amount={20_000}
+            created_at=''
           />
           <TransactionItem
             type='Expenses'
             category='Housing'
             description='Mortgage Premium'
             amount={833}
+            created_at=''
           />
           <TransactionItem
             type='Savings'
             category='Retirement'
             description='Pension Fund'
             amount={5000}
+            created_at=''
           />
           <TransactionItem
             type='Investment'
             category='Property'
             description='Rental Income'
             amount={10_000}
+            created_at=''
           />
         </div>
       </div>
       <div>
         <h2 className='mb-4 text-lg font-mono'>Buttons</h2>
-        <hr className='mb-4 border-gray-200 dark:border-gray-800' />
+        <Separator />
         <div className='space-x-4'>
           {' '}
           <Button variant='default'>Default</Button>
@@ -118,7 +128,7 @@ export default function Page() {
       </div>
       <div>
         <h2 className='mb-4 text-lg font-mono'>Forms</h2>
-        <hr className='mb-4 border-gray-200 dark:border-gray-800' />
+        <Separator />
         <div className='grid grid-cols-2 gap-4'>
           <div>
             <Label>Your name</Label>
@@ -140,6 +150,23 @@ export default function Page() {
           <div className='flex items-center'>
             <Checkbox id='terms' />
             <Label htmlFor='terms'>Accept terms</Label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 className='mb-4 text-lg font-mono'>Loading Skeleton</h2>
+        <Separator />
+        <div className='space-y-8'>
+          <div className='flex space-x-4'>
+            <Skeleton className='w-[500px] h-[20px] rounded-full' />
+            <Skeleton className='w-[500px] h-[20px] rounded-full' />
+            <Skeleton className='w-[500px] h-[20px] rounded-full' />
+          </div>
+
+          <div className='space-y-4'>
+            <Skeleton className='w-[1500px] h-[20px] rounded-full' />
+            <Skeleton className='w-[1500px] h-[20px] rounded-full' />
+            <Skeleton className='w-[1500px] h-[20px] rounded-full' />
           </div>
         </div>
       </div>

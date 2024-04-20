@@ -1,6 +1,6 @@
 export type TTransactions = 'Income' | 'Expenses' | 'Investment' | 'Savings';
 
-export type TIncome = 'Salary' | 'Investment' | 'Other';
+export type TIncome = 'Salary' | 'Investment' | 'Editing' | 'Other';
 
 export type TExpenses =
   | 'Groceries'
@@ -17,11 +17,7 @@ export type TInvestments = 'Stocks' | 'Bonds' | 'Property' | 'Other';
 
 export type TSavings = 'Emergency' | 'Retirement' | 'Other';
 
-export type TCategories =
-  | TIncome
-  | TExpenses
-  | TInvestments
-  | TSavings;
+export type TCategories = TIncome | TExpenses | TInvestments | TSavings;
 
 export interface ITransactionItem {
   id?: number;
@@ -29,4 +25,5 @@ export interface ITransactionItem {
   category?: TCategories;
   description: string;
   amount: number;
+  created_at: string;
 }
