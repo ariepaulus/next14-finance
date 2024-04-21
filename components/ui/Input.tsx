@@ -1,25 +1,25 @@
-import * as React from 'react';
+import { forwardRef, InputHTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils';
+// Define the type for the props, extending the basic input HTML attributes
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+// Define the component using forwardRef with proper typings
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  // Define the styles with explicit keys that match possible input types
+  const styles = {
+    checkbox:
+      'rounded border-gray-300 text-gray-700 bg-white dark:bg-gray-950 dark:text-gray-500 shadow-sm',
+    default:
+      'w-full rounded-md shadow-sm border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-950',
+  } as const;
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
-    return (
-      <input
-        type={type}
-        className={cn(
-          'flex h-10 w-full rounded-md shadow-sm border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-950 border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-Input.displayName = 'Input';
+  // Determine the style based on the input type. Use a type assertion to ensure only valid keys are used.
+  const styleKey = (props.type as keyof typeof styles) || 'default';
+  const className = styles[styleKey] || styles.default;
 
-export { Input };
+  return <input ref={ref} {...props} className={className} />;
+});
+
+Input.displayName = 'Input'; // It's good practice to set the displayName when using forwardRef
+
+export default Input;

@@ -22,11 +22,17 @@ export default async function Trend({ type }: { type: TTransactions }) {
       return <div>No data found for {type}</div>;
     }
 
-    console.log('amount =>', trend.amount);
-    console.log('prevAmount =>', trend.prevAmount);
-    console.log('type =>', type);
+    // console.log('amount =>', trend.amount);
+    // console.log('prevAmount =>', trend.prevAmount);
+    // console.log('type =>', type);
 
-    return <BaseTrend type={type} amount={trend.amount} prevAmount={trend.prevAmount} />;
+    return (
+      <BaseTrend
+        type={type}
+        amount={trend.amount}
+        prevAmount={trend.prevAmount}
+      />
+    );
   } catch (error) {
     console.error('Fetching trend data failed:', error);
     return <div>Error fetching data</div>;

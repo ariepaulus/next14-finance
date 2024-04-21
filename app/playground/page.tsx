@@ -15,10 +15,15 @@ import {
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Separator } from '@/components/ui/Separator';
 import { Skeleton } from '@/components/ui/Skeleton';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Playground',
+};
 
 export default function Page() {
   return (
-    <main className='space-y-8 mb-44 ml-44 mr-44'>
+    <main className='space-y-8 mb-44'>
       <h1 className='text-4xl mt-8'>Playground</h1>
       <div>
         <h2 className='mb-4 text-lg font-mono'>PageHeader</h2>
