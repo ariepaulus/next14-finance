@@ -27,3 +27,9 @@ export interface ITransactionItem {
   amount: number;
   created_at: string;
 }
+
+export interface TTrends {
+  type: TTransactions;
+  amount: number;
+  prevAmount: number;
+}

@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang='en' data-lt-installed='true' suppressHydrationWarning={true}>
       <body
         className={cn(
-          'min-h-screen flex flex-col bg-background font-sans antialiased',
+          'min-h-screen flex flex-col px-8 bg-background font-sans antialiased',
           fontSans.variable
         )}
         suppressHydrationWarning={true}

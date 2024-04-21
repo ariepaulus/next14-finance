@@ -88,5 +88,27 @@
       "description": "Student Dissertation",
       "created_at": "2024-02-23T23:00:00"
     }
+  ],
+  "trends": [
+    {
+      "type": "Income",
+      "amount": 4000,
+      "prevAmount": 3000
+    },
+    {
+      "type": "Expenses",
+      "amount": 2000,
+      "prevAmount": 1000
+    },
+    {
+      "type": "Investment",
+      "amount": 1000,
+      "prevAmount": 500
+    },
+    {
+      "type": "Savings",
+      "amount": 500,
+      "prevAmount": 200
+    }
   ]
 }

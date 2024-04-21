@@ -1,15 +1,11 @@
 import { useMemo } from 'react';
 import { Triangle, ArrowUp, ArrowDown, ArrowRight } from 'lucide-react';
 import { useFormatCurrency as FormatCurrency } from '@/hooks/use-format-currency';
-import { TransactionType } from '@/types/types';
+import { TTrends } from '@/types/types';
 
-interface TrendProps {
-  type: TransactionType;
-  amount: number;
-  prevAmount?: number;
-}
 
-export default function Trend({ type, amount, prevAmount }: TrendProps) {
+
+export default function Trend({ type, amount, prevAmount }: TTrends) {
   const colorClasses = {
     Income: 'text-green-700 dark:text-green-300',
     Expenses: 'text-red-700 dark:text-red-300',
