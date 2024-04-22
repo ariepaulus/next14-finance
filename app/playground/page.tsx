@@ -4,14 +4,8 @@ import Trend from '@/components/Trend';
 import TransactionSummaryItem from '@/components/TransactionSummaryItem';
 import { Button } from '@/components/ui/Button';
 import { Label } from '@/components/ui/Label';
-import { Input } from '@/components/ui/Input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select';
+import Input from '@/components/ui/Input';
+import Select from '@/components/ui/Select';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Separator } from '@/components/ui/Separator';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -141,15 +135,13 @@ export default function Page() {
           </div>
           <div>
             <Label>City</Label>
-            <Select>
-              <SelectTrigger className='w-[280px]'>
-                <SelectValue placeholder='Select a city' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='warsaw'>Warsaw</SelectItem>
-                <SelectItem value='berlin'>Berlin</SelectItem>
-                <SelectItem value='london'>London</SelectItem>
-              </SelectContent>
+            <Select defaultValue=''>
+              <option value='' disabled>
+                Select a city
+              </option>
+              <option value='warsaw'>Warsaw</option>
+              <option value='berlin'>Berlin</option>
+              <option value='london'>London</option>
             </Select>
           </div>
           <div className='flex items-center'>
