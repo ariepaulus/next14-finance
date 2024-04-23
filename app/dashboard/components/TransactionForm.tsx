@@ -8,6 +8,10 @@ import { TTransactions, TExpenses } from '@/types/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formValidation } from '@/ValidationSchemas/formValidation';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { purgeTransactionListCache } from '@/app/actions/purgeTransactionListCache';
+import FormError from '@/components/FormError';
 
 export default function TransactionForm() {
   const types: TTransactions[] = [
@@ -47,7 +51,33 @@ export default function TransactionForm() {
     resolver: zodResolver(formValidation),
   });
 
-  const onSubmit = (data: any) => console.log(data);
+  const router = useRouter();
+
+  const [isSaving, setIsSaving] = useState(false);
+
+  const onSubmit = async (data: any) => {
+    setIsSaving(true);
+
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/transactions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          amount: Number(data.amount),
+          created_at: `${data.created_at}T00:00:00.000Z`,
+        }),
+      });
+      await purgeTransactionListCache();
+      router.push('/dashboard');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <form className='space-y-4' onSubmit={handleSubmit(onSubmit)}>
@@ -62,9 +92,10 @@ export default function TransactionForm() {
               <option key={type}>{type}</option>
             ))}
           </Select>
-          {errors.type && (
+          {/* {errors.type && (
             <span className='mt-2 text-red-500'>A type is required</span>
-          )}
+          )} */}
+          <FormError error={errors.type} />
         </div>
         <div>
           <Label className='mb-2'>Category</Label>
@@ -76,18 +107,20 @@ export default function TransactionForm() {
               <option key={category}>{category}</option>
             ))}
           </Select>
-          {errors.category && (
+          {/* {errors.category && (
             <span className='mt-2 text-red-500'>A category is required</span>
-          )}
+          )} */}
+          <FormError error={errors.category} />
         </div>
         <div>
           <Label className='mb-2'>Date</Label>
           <Input {...register('created_at', { required: true })} />
-          {errors.created_at && (
+          {/* {errors.created_at && (
             <span className='mt-2 text-red-500'>
               {errors.created_at.message}
             </span>
-          )}
+          )} */}
+          <FormError error={errors.created_at} />
         </div>
         <div>
           <Label className='mb-2'>Amount</Label>
@@ -97,20 +130,24 @@ export default function TransactionForm() {
               required: true,
             })}
           />
-          {errors.amount && (
+          {/* {errors.amount && (
             <span className='mt-2 text-red-500'>An amount is required</span>
-          )}
+          )} */}
+          <FormError error={errors.amount} />
         </div>
         <div className='col-span-1 md:col-span-2'>
           <Label className='mb-2'>Description</Label>
           <Input {...register('description', { required: true })} />
-          {errors.description && (
+          {/* {errors.description && (
             <span className='mt-2 text-red-500'>A description is required</span>
-          )}
+          )} */}
+          <FormError error={errors.description} />
         </div>
       </div>
       <div className='flex justify-end'>
-        <Button type='submit'>Save</Button>
+        <Button type='submit' disabled={isSaving}>
+          Save
+        </Button>
       </div>
     </form>
   );

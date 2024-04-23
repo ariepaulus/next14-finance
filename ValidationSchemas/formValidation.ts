@@ -36,17 +36,24 @@ const TCategoriesSchema = z.union([
 
 // Form validation schema
 export const formValidation = z.object({
-  type: TTransactionsSchema,
-  category: TCategoriesSchema,
-  created_at: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, {
-      message: 'Date must be in YYYY-MM-DD format',
-    }),
+  type: TTransactionsSchema.refine(type => type !== undefined, {
+    message: 'Type is required',
+  }),
+  category: TCategoriesSchema.refine(category => category !== undefined, {
+    message: 'Category is required',
+  }),
+  created_at: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'Date must be in YYYY-MM-DD format',
+  }),
   description: z.string().min(1, {
     message: 'Description is required',
   }),
-  amount: z.coerce.number().positive(),
+  amount: z.coerce
+    .number()
+    .positive()
+    .refine(number => number > 1, {
+      message: 'Amount must be a positive number',
+    }),
 });
 
 // Alternative date validation using Zod:

@@ -3,7 +3,7 @@ import { TTrends, TTransactions } from '@/types/types';
 
 export default async function Trend({ type }: { type: TTransactions }) {
   try {
-    const response = await fetch(`http://localhost:3001/trends`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trends`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

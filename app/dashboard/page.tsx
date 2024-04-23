@@ -6,6 +6,11 @@ import TrendFallback from './components/TrendFallback';
 import Link from 'next/link';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+};
 
 export default function Dashboard() {
   return (

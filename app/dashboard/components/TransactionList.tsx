@@ -1,6 +1,3 @@
-// 'use client';
-
-// import { Button } from '@/components/ui/Button';
 import { Separator } from '@/components/ui/Separator';
 import TransactionItem from '@/components/TransactionItem';
 import TransactionSummaryItem from '@/components/TransactionSummaryItem';
@@ -29,17 +26,22 @@ const groupAndSumTransactionsByDate = (transactions: ITransactionItem[]) => {
 };
 
 export default async function TransactionList() {
-  const response = await fetch('http://localhost:3001/transactions', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      // Include other headers if needed
-    },
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/transactions`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      next: {
+        tags: ['transaction-list']
+      }
+    }
+  );
   const transactions: ITransactionItem[] = await response.json();
-  console.log('transactions =>', transactions);
+  // console.log('transactions =>', transactions);
   const grouped = groupAndSumTransactionsByDate(transactions);
-  console.log('grouped =>', grouped);
+  // console.log('grouped =>', grouped);
 
   return (
     <div className='space-y-8'>

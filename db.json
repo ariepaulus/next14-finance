@@ -6,7 +6,7 @@
       "type": "Expenses",
       "category": "Groceries",
       "description": "Potatoes",
-      "created_at": "2023-03-15T23:00:00"
+      "created_at": "2023-03-15T23:00:00.000Z"
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "type": "Expenses",
       "category": "Transport",
       "description": "Diesel",
-      "created_at": "2023-03-15T23:00:00"
+      "created_at": "2023-03-15T23:00:00.000Z"
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "type": "Income",
       "category": "Salary",
       "description": "Government Salary",
-      "created_at": "2023-03-15T23:00:00"
+      "created_at": "2023-03-15T23:00:00.000Z"
     },
     {
       "id": 4,
@@ -30,7 +30,7 @@
       "type": "Investment",
       "category": "Bonds",
       "description": "Government Bonds",
-      "created_at": "2024-04-19T23:00:00"
+      "created_at": "2024-04-19T23:00:00.000Z"
     },
     {
       "id": 5,
@@ -38,7 +38,7 @@
       "type": "Savings",
       "category": "Retirement",
       "description": "Annuity",
-      "created_at": "2023-11-17T23:00:00"
+      "created_at": "2023-11-17T23:00:00.000Z"
     },
     {
       "id": 6,
@@ -46,7 +46,7 @@
       "type": "Expenses",
       "category": "Entertainment",
       "description": "Show",
-      "created_at": "2023-11-17T23:00:00"
+      "created_at": "2023-11-17T23:00:00.000Z"
     },
     {
       "id": 7,
@@ -54,7 +54,7 @@
       "type": "Expenses",
       "category": "Education",
       "description": "Udemy Course",
-      "created_at": "2024-01-23T23:00:00"
+      "created_at": "2024-01-23T23:00:00.000Z"
     },
     {
       "id": 8,
@@ -62,7 +62,7 @@
       "type": "Expenses",
       "category": "Utilities",
       "description": "Electricity Bill",
-      "created_at": "2024-03-23T23:00:00"
+      "created_at": "2024-03-23T23:00:00.000Z"
     },
     {
       "id": 9,
@@ -70,7 +70,7 @@
       "type": "Expenses",
       "category": "Transport",
       "description": "Medicine",
-      "created_at": "2024-03-23T23:00:00"
+      "created_at": "2024-03-23T23:00:00.000Z"
     },
     {
       "id": 10,
@@ -78,7 +78,7 @@
       "type": "Expenses",
       "category": "Health",
       "description": "Diesel",
-      "created_at": "2024-02-23T23:00:00"
+      "created_at": "2024-02-23T23:00:00.000Z"
     },
     {
       "id": 11,
@@ -86,7 +86,55 @@
       "type": "Income",
       "category": "Editing",
       "description": "Student Dissertation",
-      "created_at": "2024-02-23T23:00:00"
+      "created_at": "2024-02-23T23:00:00.000Z"
+    },
+    {
+      "type": "Expenses",
+      "category": "Transport",
+      "created_at": "2024-04-22T00:00:00.000Z",
+      "description": "For Renault Duster",
+      "amount": 800,
+      "id": 12
+    },
+    {
+      "type": "Expenses",
+      "category": "Transport",
+      "created_at": "2024-04-22T00:00:00.000Z",
+      "description": "For Renault Duster",
+      "amount": 800,
+      "id": 13
+    },
+    {
+      "type": "Expenses",
+      "category": "Transport",
+      "created_at": "2024-04-22T00:00:00.000Z",
+      "description": "For Renault Duster",
+      "amount": 800,
+      "id": 14
+    },
+    {
+      "type": "Investment",
+      "category": "Education",
+      "created_at": "2023-11-17T00:00:00.000Z",
+      "description": "For the future",
+      "amount": 10000,
+      "id": 15
+    },
+    {
+      "type": "Expenses",
+      "category": "Entertainment",
+      "created_at": "2024-04-22T00:00:00.000Z",
+      "description": "Eating out",
+      "amount": 7543,
+      "id": 16
+    },
+    {
+      "type": "Investment",
+      "category": "Education",
+      "created_at": "2022-11-17T00:00:00.000Z",
+      "description": "For the future",
+      "amount": 5000,
+      "id": 17
     }
   ],
   "trends": [
