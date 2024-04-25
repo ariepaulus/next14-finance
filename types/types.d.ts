@@ -22,8 +22,8 @@ export type TCategories = TIncome | TExpenses | TInvestments | TSavings;
 export interface ITransactionItem {
   id?: number;
   type: TTransactions;
-  category?: TCategories;
-  description: string;
+  category: TCategories;
+  description?: string;
   amount: number;
   created_at: string;
 }

@@ -7,12 +7,17 @@ import Link from 'next/link';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Metadata } from 'next';
+import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
 };
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const client = createClient();
+  
+  console.log(await client.from('transactions').select('*'));
+
   return (
     <>
       <section className='mb-8'>

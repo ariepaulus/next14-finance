@@ -4,7 +4,7 @@ export default function DashboardLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <main className='space-y-8 '>
+    <main className='space-y-8' >
       <h1 className='text-4xl mt-8'>Dashboard</h1>
       <div>
         {/* <h2 className='mb-4 text-lg font-mono'>PageHeader</h2> */}
