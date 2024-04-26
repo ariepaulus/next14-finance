@@ -1,6 +1,13 @@
 export type TTransactions = 'Income' | 'Expenses' | 'Investment' | 'Savings';
 
-export type TIncome = 'Salary' | 'Investment' | 'Editing' | 'Other';
+export type TIncome =
+  | 'Salary/Wages'
+  | 'Pension'
+  | 'Investment'
+  | 'Editing'
+  | 'Rental'
+  | 'Social Benefits'
+  | 'Other';
 
 export type TExpenses =
   | 'Groceries'
@@ -13,9 +20,15 @@ export type TExpenses =
   | 'Utilities'
   | 'Other';
 
-export type TInvestments = 'Stocks' | 'Bonds' | 'Property' | 'Other';
+export type TInvestments =
+  | 'Stocks'
+  | 'Dividends'
+  | 'Interest'
+  | 'Property'
+  | 'Capital Gains'
+  | 'Other';
 
-export type TSavings = 'Emergency' | 'Retirement' | 'Other';
+export type TSavings = 'Emergency' | 'Retirement' | 'Special Purpose' | 'Other';
 
 export type TCategories = TIncome | TExpenses | TInvestments | TSavings;
 
@@ -23,7 +36,7 @@ export interface ITransactionItem {
   id?: number;
   type: TTransactions;
   category: TCategories;
-  description?: string;
+  description: string;
   amount: number;
   created_at: string;
 }
@@ -33,3 +46,10 @@ export interface TTrends {
   amount: number;
   prevAmount: number;
 }
+
+export type TransactionError = {
+  type: string;
+  message: string;
+};
+
+

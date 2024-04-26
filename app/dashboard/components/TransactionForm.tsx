@@ -4,13 +4,20 @@ import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import Select from '@/components/ui/Select';
-import { TTransactions, TExpenses } from '@/types/types';
+import {
+  TTransactions,
+  TExpenses,
+  TIncome,
+  TInvestments,
+  TSavings,
+  TransactionError,
+} from '@/types/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formValidation } from '@/ValidationSchemas/formValidation';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { purgeTransactionListCache } from '@/app/actions/purgeTransactionListCache';
+import { createTransaction } from '@/app/actions/createTransaction';
 import FormError from '@/components/FormError';
 
 export default function TransactionForm() {
@@ -21,7 +28,17 @@ export default function TransactionForm() {
     'Savings',
   ];
 
-  const categories: TExpenses[] = [
+  const incomeCategories: TIncome[] = [
+    'Salary/Wages',
+    'Pension',
+    'Investment',
+    'Editing',
+    'Rental',
+    'Social Benefits',
+    'Other',
+  ];
+
+  const expenseCategories: TExpenses[] = [
     'Groceries',
     'Transport',
     'Housing',
@@ -30,6 +47,22 @@ export default function TransactionForm() {
     'Health',
     'Education',
     'Utilities',
+    'Other',
+  ];
+
+  const investmentCategories: TInvestments[] = [
+    'Stocks',
+    'Dividends',
+    'Interest',
+    'Property',
+    'Capital Gains',
+    'Other',
+  ];
+
+  const savingsCategories: TSavings[] = [
+    'Emergency',
+    'Retirement',
+    'Special Purpose',
     'Other',
   ];
 
@@ -45,6 +78,7 @@ export default function TransactionForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     mode: 'onTouched',
@@ -52,30 +86,57 @@ export default function TransactionForm() {
   });
 
   const router = useRouter();
-
   const [isSaving, setIsSaving] = useState(false);
+  const [lastError, setLastError] = useState<TransactionError | null>(null);
+
+  const type = watch('type');
+  let categories: TIncome[] | TExpenses[] | TInvestments[] | TSavings[];
+  switch (type) {
+    case 'Income':
+      categories = incomeCategories;
+      break;
+    case 'Expenses':
+      categories = expenseCategories;
+      break;
+    case 'Investment':
+      categories = investmentCategories;
+      break;
+    case 'Savings':
+      categories = savingsCategories;
+      break;
+    default:
+      categories = [];
+  }
 
   const onSubmit = async (data: any) => {
     setIsSaving(true);
+    setLastError(null);
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/transactions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          amount: Number(data.amount),
-          created_at: `${data.created_at}T00:00:00.000Z`,
-        }),
-      });
-      await purgeTransactionListCache();
+      // Validate the data with the dynamically adjusted schema
+      const result = formValidation.safeParse(data);
+      if (!result.success) {
+        throw new Error(
+          result.error.issues.map(issue => issue.message).join(', ')
+        );
+      }
+
+      await createTransaction(data);
       router.push('/dashboard');
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if ('message' in error) {
+        setLastError({
+          type: 'TransactionError',
+          message: error.message || 'An unexpected error occurred.',
+        });
+        console.error(
+          'Validation or transaction creation error:',
+          error.message
+        );
+      }
     } finally {
       setIsSaving(false);
+      setLastError(null);
     }
   };
 
@@ -92,9 +153,6 @@ export default function TransactionForm() {
               <option key={type}>{type}</option>
             ))}
           </Select>
-          {/* {errors.type && (
-            <span className='mt-2 text-red-500'>A type is required</span>
-          )} */}
           <FormError error={errors.type} />
         </div>
         <div>
@@ -107,19 +165,11 @@ export default function TransactionForm() {
               <option key={category}>{category}</option>
             ))}
           </Select>
-          {/* {errors.category && (
-            <span className='mt-2 text-red-500'>A category is required</span>
-          )} */}
           <FormError error={errors.category} />
         </div>
         <div>
           <Label className='mb-2'>Date</Label>
           <Input {...register('created_at', { required: true })} />
-          {/* {errors.created_at && (
-            <span className='mt-2 text-red-500'>
-              {errors.created_at.message}
-            </span>
-          )} */}
           <FormError error={errors.created_at} />
         </div>
         <div>
@@ -130,21 +180,16 @@ export default function TransactionForm() {
               required: true,
             })}
           />
-          {/* {errors.amount && (
-            <span className='mt-2 text-red-500'>An amount is required</span>
-          )} */}
           <FormError error={errors.amount} />
         </div>
         <div className='col-span-1 md:col-span-2'>
           <Label className='mb-2'>Description</Label>
           <Input {...register('description', { required: true })} />
-          {/* {errors.description && (
-            <span className='mt-2 text-red-500'>A description is required</span>
-          )} */}
           <FormError error={errors.description} />
         </div>
       </div>
-      <div className='flex justify-end'>
+      <div className='flex justify-between items-center'>
+        <div>{lastError && <FormError error={lastError} />}</div>
         <Button type='submit' disabled={isSaving}>
           Save
         </Button>

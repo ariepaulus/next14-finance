@@ -51,7 +51,7 @@ function TransactionSummaryItemSkeleton() {
       <div className='min-w-[70px]'>
         <Skeleton className='w-[100px] h-[20px] rounded-full' />
       </div>
-      <div className='min-w-[50px]'></div>
+      <div className='min-w-[50px]' />
     </div>
   );
 }

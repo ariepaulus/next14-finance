@@ -8,7 +8,15 @@ const TTransactionsSchema = z.enum([
   'Savings',
 ]);
 
-const TIncomeSchema = z.enum(['Salary', 'Investment', 'Editing', 'Other']);
+const TIncomeSchema = z.enum([
+  'Salary/Wages',
+  'Pension',
+  'Investment',
+  'Editing',
+  'Rental',
+  'Social Benefits',
+  'Other',
+]);
 
 const TExpensesSchema = z.enum([
   'Groceries',
@@ -22,9 +30,21 @@ const TExpensesSchema = z.enum([
   'Other',
 ]);
 
-const TInvestmentsSchema = z.enum(['Stocks', 'Bonds', 'Property', 'Other']);
+const TInvestmentsSchema = z.enum([
+  'Stocks',
+  'Dividends',
+  'Interest',
+  'Property',
+  'Capital Gains',
+  'Other',
+]);
 
-const TSavingsSchema = z.enum(['Emergency', 'Retirement', 'Other']);
+const TSavingsSchema = z.enum([
+  'Emergency',
+  'Retirement',
+  'Special Purpose',
+  'Other',
+]);
 
 // Combined categories schema using Zod union
 const TCategoriesSchema = z.union([
@@ -55,19 +75,3 @@ export const formValidation = z.object({
       message: 'Amount must be a positive number',
     }),
 });
-
-// Alternative date validation using Zod:
-// created_at: z.string().regex(
-//   /^\d{4}-\d{2}-\d{2}$/,
-//   'Date must be in YYYY-MM-DD format'
-// );
-// Another alternative date validation using Zod:
-// created_at: z.string().refine(value => !isNaN(Date.parse(value)));
-// Another alternative
-//  created_at: z.string().transform(value => {
-//     const date = new Date(value);
-//     if (isNaN(date.getTime())) {
-//       throw new Error('Invalid date');
-//     }
-//     return date.toISOString();
-//   }),

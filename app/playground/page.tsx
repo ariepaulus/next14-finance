@@ -42,7 +42,7 @@ export default function Page() {
         <div className='space-y-4'>
           <TransactionItem
             type='Income'
-            category='Salary'
+            category='Salary/Wages'
             description='Government Salary'
             amount={240_000}
             created_at=''
@@ -80,7 +80,7 @@ export default function Page() {
           <Separator />
           <TransactionItem
             type='Income'
-            category='Salary'
+            category='Salary/Wages'
             description='Government Salary'
             amount={20_000}
             created_at=''

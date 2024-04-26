@@ -1,45 +1,22 @@
+'use client';
+
 import { Separator } from '@/components/ui/Separator';
 import TransactionItem from '@/components/TransactionItem';
 import TransactionSummaryItem from '@/components/TransactionSummaryItem';
 import { ITransactionItem } from '@/types/types';
-import { createClient } from '@/lib/supabase/server';
+import { fetchTransactions } from '@/lib/utils/server-utils';
+import { useEffect, useState } from 'react';
+import { groupAndSumTransactionsByDate } from '@/lib/utils/GroupAndSumTransactionsByDate';
 
-const groupAndSumTransactionsByDate = (transactions: ITransactionItem[]) => {
-  const grouped: {
-    [key: string]: { transactions: ITransactionItem[]; amount: number };
-  } = {};
+export default function TransactionList() {
+  const [transactions, setTransactions] = useState<ITransactionItem[]>([]);
 
-  for (const transaction of transactions) {
-    const date = transaction.created_at.split('T')[0];
+  useEffect(() => {
+    fetchTransactions().then(transactions => {
+      setTransactions(transactions);
+    });
+  }, []);
 
-    if (!grouped[date]) {
-      grouped[date] = { transactions: [], amount: 0 };
-    }
-    grouped[date].transactions.push(transaction);
-    const amount =
-      transaction.type === 'Expenses'
-        ? -transaction.amount
-        : transaction.amount;
-    grouped[date].amount += amount;
-  }
-
-  return grouped;
-};
-
-export default async function TransactionList() {
-  const supabase = createClient();
-  const { data: transactions, error } = await supabase
-    .from('transactions')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    return console.error('Error loading transactions: ', error.message);
-  }
-
-  if (!transactions) {
-    return null;
-  }
   // console.log('transactions =>', transactions);
   const grouped = groupAndSumTransactionsByDate(
     transactions as ITransactionItem[]

@@ -1,40 +1,45 @@
 import BaseTrend from '@/components/Trend';
-import { TTrends, TTransactions } from '@/types/types';
+import { createClient } from '@/lib/supabase/server';
+import { TTransactions } from '@/types/types';
+import { PostgrestError } from '@supabase/supabase-js';
+import { DateRange } from '../../../enums/enums';
 
-export default async function Trend({ type }: { type: TTransactions }) {
+interface TrendProps {
+  type: TTransactions;
+  range: DateRange;
+}
+
+export default async function Trend({ type, range }: TrendProps) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trends`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const supabase = createClient();
+    let { data, error } = await supabase.rpc('calculate_total', {
+      range_arg: range,
+      type_arg: type,
     });
+    if (error) throw error;
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const trends: TTrends[] = await response.json();
-    const trend = trends.find(trend => trend.type === type);
-
-    if (!trend) {
+    if (!data || data.length === 0) {
       console.error('No trend data found for type:', type);
       return <div>No data found for {type}</div>;
     }
 
-    // console.log('amount =>', trend.amount);
-    // console.log('prevAmount =>', trend.prevAmount);
-    // console.log('type =>', type);
+    const amounts = data[0];
+    console.log('Amounts:', amounts);
 
     return (
       <BaseTrend
         type={type}
-        amount={trend.amount}
-        prevAmount={trend.prevAmount}
+        amount={amounts.current_amount}
+        prevAmount={amounts.previous_mount}
       />
     );
   } catch (error) {
-    console.error('Fetching trend data failed:', error);
-    return <div>Error fetching data</div>;
+    const e = error as PostgrestError;
+    console.error('Error fetching transaction trend data:', e.message);
+    return (
+      <div className='text-red-500'>
+        Fetching {type.toLowerCase()} trend data failed: {e.message}
+      </div>
+    );
   }
 }
