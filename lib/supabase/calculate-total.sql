@@ -19,8 +19,8 @@ begin
 		when range_arg = 'last12months' then currentEnd - interval '12 months'
 		else currentEnd - interval '30 days'
 	end;
-	previousEnd := currentStart - interval '1 second';
-	previousStart := currentStart - (currentEnd - currentStart);
+	previousEnd := currentStart - interval '1 second'; -- To ensure to ensure these periods are consecutive and non-overlapping.
+	previousStart := currentStart - (currentEnd - currentStart); -- To calculate the start date/time of the "previous" period by subtracting the duration of the "current" period from the start date/time of the current period
 	current_amount := (
 		select COALESCE(SUM(amount), 0) -- Select the sum of all values from the amount column
 		from transactions  -- of transactions table

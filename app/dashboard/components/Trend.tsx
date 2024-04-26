@@ -24,7 +24,6 @@ export default async function Trend({ type, range }: TrendProps) {
     }
 
     const amounts = data[0];
-    console.log('Amounts:', amounts);
 
     return (
       <BaseTrend
