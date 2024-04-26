@@ -4,24 +4,17 @@ import { Separator } from '@/components/ui/Separator';
 import TransactionItem from '@/components/TransactionItem';
 import TransactionSummaryItem from '@/components/TransactionSummaryItem';
 import { ITransactionItem } from '@/types/types';
-import { fetchTransactions } from '@/lib/utils/server-utils';
-import { useEffect, useState } from 'react';
 import { groupAndSumTransactionsByDate } from '@/lib/utils/GroupAndSumTransactionsByDate';
 
-export default function TransactionList() {
-  const [transactions, setTransactions] = useState<ITransactionItem[]>([]);
+interface TransactionListProps {
+  initialTransactions: ITransactionItem[];
 
-  useEffect(() => {
-    fetchTransactions().then(transactions => {
-      setTransactions(transactions);
-    });
-  }, []);
+}
 
-  // console.log('transactions =>', transactions);
+export default function TransactionList({ initialTransactions }: TransactionListProps) {
   const grouped = groupAndSumTransactionsByDate(
-    transactions as ITransactionItem[]
+    initialTransactions as ITransactionItem[]
   );
-  // console.log('grouped =>', grouped);
 
   return (
     <div className='space-y-8'>
