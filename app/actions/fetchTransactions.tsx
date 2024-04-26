@@ -1,3 +1,5 @@
+'use server';
+
 import { DateRange } from '@/enums/enums';
 import { createClient } from '@/lib/supabase/server';
 

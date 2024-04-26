@@ -5,16 +5,42 @@ import TransactionItem from '@/components/TransactionItem';
 import TransactionSummaryItem from '@/components/TransactionSummaryItem';
 import { ITransactionItem } from '@/types/types';
 import { groupAndSumTransactionsByDate } from '@/lib/utils/GroupAndSumTransactionsByDate';
+import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
+import { MouseEvent } from 'react';
+import fetchTransactions from '@/app/actions/fetchTransactions';
+import { DateRange } from '@/enums/enums';
 
 interface TransactionListProps {
+  range: DateRange;
   initialTransactions: ITransactionItem[];
-
 }
 
-export default function TransactionList({ initialTransactions }: TransactionListProps) {
-  const grouped = groupAndSumTransactionsByDate(
+export default function TransactionList({
+  range,
+  initialTransactions,
+}: TransactionListProps) {
+  const [transactions, setTransactions] = useState(
     initialTransactions as ITransactionItem[]
   );
+  const [offset, setOffset] = useState(initialTransactions.length);
+
+  const grouped = groupAndSumTransactionsByDate(
+    transactions as ITransactionItem[]
+  );
+
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    const nextTransactions = await fetchTransactions({
+      range,
+      offset,
+      limit: 10,
+    });
+    setOffset(prevOffset => prevOffset + 10);
+    setTransactions(prevTransactions => [
+      ...prevTransactions,
+      ...nextTransactions,
+    ]);
+  };
 
   return (
     <div className='space-y-8'>
@@ -31,6 +57,11 @@ export default function TransactionList({ initialTransactions }: TransactionList
           </section>
         </div>
       ))}
+      <div className='flex justify-center'>
+        <Button variant='outline' onClick={handleClick}>
+          Load More
+        </Button>
+      </div>
     </div>
   );
 }
