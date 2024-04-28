@@ -6,5 +6,11 @@ import { redirect } from 'next/navigation';
 export async function signOut() {
   const supabase = createClient();
   const { error } = await supabase.auth.signOut();
-  redirect('/login');
+
+  if (error) {
+    console.error('Error signing out:', error.message);
+    // Handle the error in a way that makes sense for your app
+  } else {
+    redirect('/login');
+  }
 }

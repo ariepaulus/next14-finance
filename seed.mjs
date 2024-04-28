@@ -9,7 +9,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE
 );
 
-const categories = [
+const expenseCategories = [
   'Groceries',
   'Transport',
   'Housing',
@@ -18,6 +18,32 @@ const categories = [
   'Health',
   'Education',
   'Utilities',
+  'Other',
+];
+
+const incomeCategories = [
+  'Salary/Wages',
+  'Pension',
+  'Investment',
+  'Editing',
+  'Rental',
+  'Social Benefits',
+  'Other',
+];
+
+const investmentCategories = [
+  'Stocks',
+  'Dividends',
+  'Interest',
+  'Propery',
+  'Capital Gains',
+  'Other',
+];
+
+const savingsCategories = [
+  'Emergency',
+  'Retirement',
+  'Special Purpose',
   'Other',
 ];
 
@@ -55,40 +81,51 @@ async function seed() {
 
   const userIds = users?.map(user => user.id);
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 100; i++) {
     const created_at = faker.date.past();
-    let type, category = null;
+    let type,
+      category = null;
     const user_id = faker.helpers.arrayElement(userIds);
     const typeBias = Math.random();
 
-    if (typeBias < 0.8) {
+    if (typeBias < 0.5) {
       type = 'Expenses';
-      category = faker.helpers.arrayElement(categories);
-    } else if (typeBias < 0.9) {
+      category = faker.helpers.arrayElement(expenseCategories);
+    } else if (typeBias < 0.7) {
       type = 'Income';
+      category = faker.helpers.arrayElement(incomeCategories);
+    } else if (typeBias < 0.9) {
+      type = 'Investment';
+      category = faker.helpers.arrayElement(investmentCategories);
     } else {
-      type = faker.helpers.arrayElement(['Savings', 'Investment']);
+      type = 'Savings';
+      category = faker.helpers.arrayElement(savingsCategories);
     }
 
     let amount;
     switch (type) {
       case 'Income':
         amount = faker.number.int({
-          min: 2000,
-          max: 9000,
+          min: 10_000,
+          max: 20_000,
         });
         break;
       case 'Expenses':
         amount = faker.number.int({
-          min: 10,
-          max: 1000,
+          min: 50,
+          max: 5000,
         });
         break;
       case 'Investment':
+        amount = faker.number.int({
+          min: 5000,
+          max: 10_000,
+        });
+        break;
       case 'Savings':
         amount = faker.number.int({
           min: 3000,
-          max: 10_000,
+          max: 8_000,
         });
         break;
     }

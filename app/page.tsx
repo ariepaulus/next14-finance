@@ -7,7 +7,7 @@ export default function HomePage() {
         <h1>Home</h1>
       </div>
       <div>
-        <Link href='/auth/login'>Login</Link>
+        <Link href='/login'>Login</Link>
       </div>
       <div>
         <Link href='/dashboard'>Dashboard</Link>

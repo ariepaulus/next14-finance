@@ -2,7 +2,9 @@ import { DateRange } from '@/enums/enums';
 import Select from './ui/Select';
 
 interface DateRangeSelectProps {
-  props: DateRange[];
+  id: string;
+  defaultValue: DateRange[];
+  name: string;
 }
 
 export default function DateRangeSelect(props: DateRangeSelectProps) {

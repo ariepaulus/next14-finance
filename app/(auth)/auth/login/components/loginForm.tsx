@@ -5,9 +5,9 @@ import SubmitButton from '@/components/SubmitButton';
 import Input from '@/components/ui/Input';
 import { useFormState } from 'react-dom';
 
-type FormState = {
+type State = void | {
   message: string;
-  error: boolean;
+  error?: boolean;
 };
 
 const initialState = {

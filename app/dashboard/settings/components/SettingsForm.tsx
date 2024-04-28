@@ -8,18 +8,24 @@ import { Label } from '@/components/ui/Label';
 import SubmitButton from '@/components/SubmitButton';
 import { updateSettings } from '@/app/actions/updateSettings';
 import { useFormState } from 'react-dom';
+import { DateRange } from '@/enums/enums';
 
 const initialState = {
   message: '',
   error: false,
 };
 
-export default function SettingsForm({ defaults }) {
+type DefaultsType = {
+  fullName?: string;
+  defaultView?: DateRange[];
+};
+
+export default function SettingsForm({ defaults }: { defaults: DefaultsType }) {
   const [state, formAction] = useFormState(updateSettings, initialState);
   return (
     <form className='space-y-4' action={formAction}>
       {state?.error && <AlertError>{state?.message}</AlertError>}
-      {!state?.error && state?.message.length > 0 && (
+      {!state?.error && state?.message && state?.message.length > 0 && (
         <AlertSuccess>{state?.message}</AlertSuccess>
       )}
 
@@ -36,7 +42,7 @@ export default function SettingsForm({ defaults }) {
       <DateRangeSelect
         name='defaultView'
         id='defaultView'
-        defaultValue={defaults?.defaultView}
+        defaultValue={defaults?.defaultView || [DateRange.last30days]}
       />
 
       <SubmitButton>Update Settings</SubmitButton>

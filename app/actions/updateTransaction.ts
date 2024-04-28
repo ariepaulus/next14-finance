@@ -13,19 +13,26 @@ export async function updateTransaction({
   id,
   formData,
 }: updateTransactionProps) {
-  const validated = formValidation.safeParse(formData);
-  if (!validated.success) {
-    throw new Error('Invalid data');
+  try {
+    // Validate the data
+    const validated = formValidation.safeParse(formData);
+    if (!validated.success) {
+      throw new Error('Invalid data');
+    }
+    // Implement the transaction
+    const { error } = await createClient()
+      .from('transactions')
+      .update(formData)
+      .eq('id', id);
+
+    // Handle the errors
+    if (error) {
+      throw new Error('Failed updating the transaction');
+    }
+
+    revalidatePath('/dashboard');
+  } catch (error) {
+    // Handle the error
+    console.error(error);
   }
-
-  const { error } = await createClient()
-    .from('transactions')
-    .update(formData)
-    .eq('id', id);
-
-  if (error) {
-    throw new Error('Failed creating the transaction');
-  }
-
-  revalidatePath('/dashboard');
 }

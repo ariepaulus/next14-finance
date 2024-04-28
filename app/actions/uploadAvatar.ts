@@ -2,13 +2,20 @@
 
 import { createClient } from '@/lib/supabase/server';
 
-interface uploadAvatarProps {
-  prevState: any;
-  formData: FormData;
-}
+type State = void | {
+  message: string;
+  error?: boolean;
+};
 
-export async function uploadAvatar({ prevState, formData }: uploadAvatarProps) {
+export async function uploadAvatar(
+  prevState: State,
+  formData: FormData
+): Promise<State> {
+  console.log('uploadAvatar prevState => ', prevState);
+  console.log('uploadAvatar formData => ', formData);
+
   const supabase = createClient();
+
   const file = formData.get('file');
   if (file === null) {
     return {
@@ -27,6 +34,8 @@ export async function uploadAvatar({ prevState, formData }: uploadAvatarProps) {
     fileExt = file.name.split('.').pop();
   }
   const fileName = `${Math.random()}.${fileExt}`;
+  console.log('fileName => ', fileName);
+
   const { error } = await supabase.storage
     .from('avatars')
     .upload(fileName, file);

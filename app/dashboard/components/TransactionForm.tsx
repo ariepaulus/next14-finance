@@ -88,9 +88,16 @@ export default function TransactionForm({ initialData }: TransactionFormProps) {
   } = useForm<FormData>({
     mode: 'onTouched',
     resolver: zodResolver(formValidation),
-    defaultValues: initialData ?? {
-      created_at: new Date().toISOString().split('T')[0],
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          created_at: new Date(initialData.created_at)
+            .toISOString()
+            .split('T')[0],
+        }
+      : {
+          created_at: new Date().toISOString().split('T')[0],
+        },
   });
 
   const router = useRouter();
@@ -133,7 +140,7 @@ export default function TransactionForm({ initialData }: TransactionFormProps) {
 
       if (editing) {
         // Edit action
-        await updateTransaction(initialData.id, data);
+        await updateTransaction({ id: initialData.id, formData: data });
       } else {
         await createTransaction(data);
       }
