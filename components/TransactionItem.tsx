@@ -1,13 +1,18 @@
 import { useFormatCurrency as FormatCurrency } from '@/hooks/use-format-currency';
-import { HandCoins, Wallet, Landmark, PiggyBank } from 'lucide-react';
-import { ITransactionItem } from '@/types/types';
+import { HandCoins, Wallet, Landmark, PiggyBank, Pencil } from 'lucide-react';
+import { IClientTransactionItem } from '@/types/types';
+import TransactionItemRemoveButton from './TransactionItemRemoveButton';
+import { sizes, variants } from '@/lib/utils/variants';
+import Link from 'next/link';
 
 export default function TransactionItem({
+  id,
   type,
   category,
   description,
   amount,
-}: ITransactionItem) {
+  onRemoved,
+}: IClientTransactionItem) {
   const typesMap = {
     Income: {
       icon: HandCoins,
@@ -44,7 +49,15 @@ export default function TransactionItem({
         )}
       </div>
       <div className='min-w-[70px] text-right'>{formattedAmount}</div>
-      <div className='min-w-[50px] flex justify-end'>...</div>
+      <div className='min-w-[100px] flex justify-end'>
+        <Link
+          href={`/dashboard/transaction/${id}/edit`}
+          className={`${variants.ghost} ${sizes.xs}`}
+        >
+          <Pencil className='w-4 h-4' />
+        </Link>
+        <TransactionItemRemoveButton id={id} onRemoved={onRemoved(id)} />
+      </div>
     </div>
   );
 }

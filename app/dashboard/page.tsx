@@ -9,6 +9,7 @@ import { TTransactions } from '@/types/types';
 import Range from './components/Range';
 import { DateRange } from '../../enums/enums';
 import TransactionListWrapper from './components/TransactionListWrapper';
+import { createClient } from '@/lib/supabase/server';
 
 interface SearchParams {
   range?: DateRange;
@@ -27,6 +28,9 @@ export default async function Dashboard({
   ];
 
   const range = searchParams?.range ?? DateRange.last30days;
+
+  const supabase = createClient();
+  console.log('Supabase User => ', await supabase.auth.getUser());
 
   return (
     <div className='space-y-8'>

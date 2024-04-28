@@ -33,12 +33,17 @@ export type TSavings = 'Emergency' | 'Retirement' | 'Special Purpose' | 'Other';
 export type TCategories = TIncome | TExpenses | TInvestments | TSavings;
 
 export interface ITransactionItem {
-  id?: number;
+  id: string;
   type: TTransactions;
   category: TCategories;
   description: string;
   amount: number;
   created_at: string;
+}
+
+// Extended interface for client-side use that includes the function
+export interface IClientTransactionItem extends ITransactionItem {
+  onRemoved: (id: string) => () => void;
 }
 
 export interface TTrends {
@@ -51,5 +56,3 @@ export type TransactionError = {
   type: string;
   message: string;
 };
-
-

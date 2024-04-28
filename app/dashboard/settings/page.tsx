@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
-import SettingsForm from './components/settings-form';
+import SettingsForm from './components/SettingsForm';
 
-export default async function Page() {
+export default async function SettingsPage() {
   const supabase = createClient();
   const {
     data: {

@@ -1,4 +1,4 @@
-import TransactionForm from '@/app/dashboard/components/transaction-form';
+import TransactionForm from '@/app/dashboard/components/TransactionForm';
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 
@@ -6,7 +6,13 @@ export const metadata = {
   title: 'Edit Transaction',
 };
 
-export default async function Page({ params: { id } }) {
+interface IParams {
+  params: {
+    id: string;
+  };
+}
+
+export default async function EditTransactionPage({ params: { id } }: IParams) {
   const supabase = createClient();
   const { data: transaction, error } = await supabase
     .from('transactions')

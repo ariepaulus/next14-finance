@@ -8,9 +8,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   // Define the styles with explicit keys that match possible input types
   const styles = {
     checkbox:
-      'rounded border-gray-300 text-gray-700 bg-white dark:bg-gray-950 dark:text-gray-500 shadow-sm',
+      'rounded border-gray-300 text-gray-700 bg-white dark:bg-gray-950 dark:text-gray-500 shadow-sm disabled:opacity-75',
     default:
-      'w-full rounded-md shadow-sm border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-950',
+      'w-full rounded-md shadow-sm border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-950 disabled:opacity-75',
   } as const;
 
   // Determine the style based on the input type. Use a type assertion to ensure only valid keys are used.

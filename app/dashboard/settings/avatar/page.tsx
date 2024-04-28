@@ -12,7 +12,7 @@ const initialState = {
   error: false,
 };
 
-export default function Page() {
+export default function AvatarPage() {
   const [state, formAction] = useFormState(uploadAvatar, initialState);
   return (
     <>

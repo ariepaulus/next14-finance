@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 
-export async function deleteTransaction(id: number) {
+export async function deleteTransaction(id: string) {
   const supabase = createClient();
   const { error } = await supabase.from('transactions').delete().eq('id', id);
   if (error) throw new Error(`Could not delete the transaction ${id}`);

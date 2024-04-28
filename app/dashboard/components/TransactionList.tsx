@@ -3,17 +3,17 @@
 import { Separator } from '@/components/ui/Separator';
 import TransactionItem from '@/components/TransactionItem';
 import TransactionSummaryItem from '@/components/TransactionSummaryItem';
-import { ITransactionItem } from '@/types/types';
+import { IClientTransactionItem } from '@/types/types';
 import { groupAndSumTransactionsByDate } from '@/lib/utils/GroupAndSumTransactionsByDate';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { MouseEvent } from 'react';
 import fetchTransactions from '@/app/actions/fetchTransactions';
 import { DateRange } from '@/enums/enums';
+import { Loader } from 'lucide-react';
 
 interface TransactionListProps {
   range: DateRange;
-  initialTransactions: ITransactionItem[];
+  initialTransactions: IClientTransactionItem[];
 }
 
 export default function TransactionList({
@@ -21,25 +21,42 @@ export default function TransactionList({
   initialTransactions,
 }: TransactionListProps) {
   const [transactions, setTransactions] = useState(
-    initialTransactions as ITransactionItem[]
+    initialTransactions as IClientTransactionItem[]
   );
-  const [offset, setOffset] = useState(initialTransactions.length);
+  const [buttonHidden, setButtonHidden] = useState(
+    initialTransactions.length === 0
+  );
+  const [loading, setLoading] = useState(false);
 
   const grouped = groupAndSumTransactionsByDate(
-    transactions as ITransactionItem[]
+    transactions as IClientTransactionItem[]
   );
 
-  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
-    const nextTransactions = await fetchTransactions({
-      range,
-      offset,
-      limit: 10,
+  const handleClick = async () => {
+    setLoading(true);
+    let nextTransactions: IClientTransactionItem[] = [];
+    try {
+      nextTransactions = await fetchTransactions({
+        range,
+        offset: transactions.length,
+        limit: 10,
+      });
+      setButtonHidden(nextTransactions.length === 0);
+      setTransactions(prevTransactions => [
+        ...prevTransactions,
+        ...nextTransactions,
+      ]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoved = (id: string) => () => {
+    setTransactions(prevTransactions => {
+      return prevTransactions.filter(transaction => transaction.id !== id);
     });
-    setOffset(prevOffset => prevOffset + 10);
-    setTransactions(prevTransactions => [
-      ...prevTransactions,
-      ...nextTransactions,
-    ]);
   };
 
   return (
@@ -51,17 +68,27 @@ export default function TransactionList({
           <section className='space-y-4'>
             {transactions.map(transaction => (
               <div key={transaction.id}>
-                <TransactionItem {...transaction} />
+                <TransactionItem {...transaction} onRemoved={handleRemoved} />
               </div>
             ))}
           </section>
         </div>
       ))}
-      <div className='flex justify-center'>
-        <Button variant='outline' onClick={handleClick}>
-          Load More
-        </Button>
-      </div>
+      {transactions.length === 0 && (
+        <div className='text-center text-gray-400 dark:text-gray-500'>
+          No further transactions found!
+        </div>
+      )}
+      {!buttonHidden && (
+        <div className='flex justify-center'>
+          <Button variant='outline' onClick={handleClick} disabled={loading}>
+            <div className='flex items-center space-x-1'>
+              {loading && <Loader size={16} className='animate-spin' />}
+              <div>Load More</div>
+            </div>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

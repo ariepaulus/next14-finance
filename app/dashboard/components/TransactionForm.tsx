@@ -17,10 +17,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { formValidation } from '@/ValidationSchemas/formValidation';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { updateTransaction } from '@/app/actions/updateTransaction';
 import { createTransaction } from '@/app/actions/createTransaction';
 import FormError from '@/components/FormError';
 
-export default function TransactionForm() {
+interface TransactionFormProps {
+  initialData: any;
+}
+
+export default function TransactionForm({ initialData }: TransactionFormProps) {
   const types: TTransactions[] = [
     'Income',
     'Expenses',
@@ -83,6 +88,9 @@ export default function TransactionForm() {
   } = useForm<FormData>({
     mode: 'onTouched',
     resolver: zodResolver(formValidation),
+    defaultValues: initialData ?? {
+      created_at: new Date().toISOString().split('T')[0],
+    },
   });
 
   const router = useRouter();
@@ -90,6 +98,8 @@ export default function TransactionForm() {
   const [lastError, setLastError] = useState<TransactionError | null>(null);
 
   const type = watch('type');
+  const editing = Boolean(initialData);
+
   let categories: TIncome[] | TExpenses[] | TInvestments[] | TSavings[];
   switch (type) {
     case 'Income':
@@ -121,7 +131,13 @@ export default function TransactionForm() {
         );
       }
 
-      await createTransaction(data);
+      if (editing) {
+        // Edit action
+        await updateTransaction(initialData.id, data);
+      } else {
+        await createTransaction(data);
+      }
+
       router.push('/dashboard');
     } catch (error: any) {
       if ('message' in error) {
@@ -169,7 +185,10 @@ export default function TransactionForm() {
         </div>
         <div>
           <Label className='mb-2'>Date</Label>
-          <Input {...register('created_at', { required: true })} />
+          <Input
+            {...register('created_at', { required: true })}
+            disabled={editing}
+          />
           <FormError error={errors.created_at} />
         </div>
         <div>

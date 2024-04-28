@@ -1,18 +1,29 @@
 'use client';
 
-import Input from '@/components/ui/Input';
+import { loginWithEmail } from '@/app/actions/loginWithEmail';
 import SubmitButton from '@/components/SubmitButton';
-import { login } from '@/app/actions/login';
+import Input from '@/components/ui/Input';
 import { useFormState } from 'react-dom';
 
+type FormState = {
+  message: string;
+  error: boolean;
+};
+
+const initialState = {
+  message: '',
+  error: false,
+};
+
 export default function LoginForm() {
-  const [state, formAction] = useFormState(login, initialState);
+  const [state, formAction] = useFormState(loginWithEmail, initialState);
+
   return (
     <form action={formAction} className='space-y-2'>
       <Input
         type='email'
         placeholder='name@example.com'
-        name='email'
+        name='email' // passed to the server action
         required
       />
       <SubmitButton type='submit' size='sm' className='w-full'>
@@ -28,3 +39,16 @@ export default function LoginForm() {
     </form>
   );
 }
+
+/* GET /auth/login 200 in 694ms
+loginWithEmail FormData {
+  [Symbol(state)]: [
+    {
+      name: '$ACTION_ID_bf7c2532de0bace0223e0ad107748ed79fa70447',
+      value: ''
+    },
+    { name: 'email', value: 'averburgh@gmail.com' }
+  ]
+}
+ POST /auth/login 200 in 86ms
+ */
