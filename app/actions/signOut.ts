@@ -11,6 +11,6 @@ export async function signOut() {
     console.error('Error signing out:', error.message);
     // Handle the error in a way that makes sense for your app
   } else {
-    redirect('/login');
+    redirect('/auth/login');
   }
 }
