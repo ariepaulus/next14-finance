@@ -1,14 +1,22 @@
 'use client';
 
-import Select from '@/components/ui/Select';
+import DateRangeSelect from '@/components/DateRangeSelect';
+import { DateRange } from '@/enums/enums';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { ChangeEvent } from 'react';
 
-export default function Range() {
+interface RangeProps {
+  id?: string;
+  defaultValue?: DateRange;
+  name?: string;
+}
+
+export default function Range({ defaultValue }: RangeProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const range = searchParams.get('range') ?? 'last30days';
+  const range =
+    searchParams.get('range') ?? defaultValue ?? DateRange.last30days;
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const params = new URLSearchParams();
@@ -16,12 +24,10 @@ export default function Range() {
     replace(`${pathname}?${params.toString()}`);
   };
 
-  return (
-    <Select value={range} onChange={handleChange}>
-      <option value='last24hours'>Last 24 hours</option>
-      <option value='last7days'>Last 7 days</option>
-      <option value='last30days'>Last 30 days</option>
-      <option value='last12months'>Last 12 months</option>
-    </Select>
-  );
+  const rangeArray: DateRange[] =
+    range === DateRange.last30days
+      ? [DateRange.last30days]
+      : [DateRange[range as keyof typeof DateRange]];
+
+  return <DateRangeSelect defaultValue={rangeArray} onChange={handleChange} />;
 }

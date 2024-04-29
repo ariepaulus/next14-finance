@@ -9,7 +9,7 @@ export default async function Avatar({ width = 32, height = 32 }) {
   } = await supabase.auth.getUser();
   const { data: imageData, error } = await supabase.storage
     .from('avatars')
-    .createSignedUrl(user?.user_metadata?.avatar, 60 * 5);
+    .createSignedUrl(user?.user_metadata?.avatar, 60 * 5); // Makes it publicly available for limited time
 
   if (error) {
     return <CircleUser className='w-6 h-6' />;

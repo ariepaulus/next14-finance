@@ -2,9 +2,10 @@ import { DateRange } from '@/enums/enums';
 import Select from './ui/Select';
 
 interface DateRangeSelectProps {
-  id: string;
+  id?: string;
   defaultValue: DateRange[];
-  name: string;
+  name?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export default function DateRangeSelect(props: DateRangeSelectProps) {

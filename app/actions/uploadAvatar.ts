@@ -11,8 +11,8 @@ export async function uploadAvatar(
   prevState: State,
   formData: FormData
 ): Promise<State> {
-  console.log('uploadAvatar prevState => ', prevState);
-  console.log('uploadAvatar formData => ', formData);
+  // console.log('uploadAvatar prevState => ', prevState);
+  // console.log('uploadAvatar formData => ', formData);
 
   const supabase = createClient();
 
@@ -36,6 +36,7 @@ export async function uploadAvatar(
   const fileName = `${Math.random()}.${fileExt}`;
   console.log('fileName => ', fileName);
 
+  // Uploading the file
   const { error } = await supabase.storage
     .from('avatars')
     .upload(fileName, file);
@@ -47,14 +48,16 @@ export async function uploadAvatar(
   }
 
   // Removing the old file
-  const { data: userData } = await supabase.auth.getUser();
-  if (error) {
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  if (userError) {
     return {
       error: true,
       message: 'Something went wrong, try again',
     };
   }
 
+  // Trying to read the old avatar from the user metadata
   const avatar = userData?.user?.user_metadata.avatar;
   if (avatar) {
     const { error } = await supabase.storage.from('avatars').remove([avatar]);
@@ -67,6 +70,7 @@ export async function uploadAvatar(
     }
   }
 
+  // Updating the user metadata with the new avatar
   const { error: dataUpdateError } = await supabase.auth.updateUser({
     data: {
       avatar: fileName,

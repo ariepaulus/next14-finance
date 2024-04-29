@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { User, Camera, Settings } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
-export default function SideNav() {
+export default function SettingsSideNav() {
   const pathname = usePathname();
-  console.log(pathname);
+  // console.log(pathname);
   return (
     <nav>
       <ul className='space-y-2'>

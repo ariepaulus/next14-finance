@@ -2,15 +2,6 @@ import { createClient } from '@/lib/supabase/server';
 import SettingsForm from './components/SettingsForm';
 import { DateRange } from '@/enums/enums';
 
-type UserMetadata = {
-  defaultView?: DateRange[];
-  email: string;
-  email_verified: boolean;
-  fullName?: string;
-  phone_verified: boolean;
-  sub: string;
-};
-
 type DefaultsType = {
   fullName?: string;
   defaultView?: DateRange[];
@@ -22,7 +13,7 @@ export default async function SettingsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log(user?.user_metadata);
+  // console.log(user?.user_metadata);
 
   if (user === null) {
     return <p>You need to log in to view this page.</p>;

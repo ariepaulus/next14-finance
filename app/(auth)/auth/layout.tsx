@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { ReactNode } from 'react';
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function LoginLayout({ children }: { children: ReactNode }) {
   return (
     <main>
       <div className='absolute left-8 top-8'>

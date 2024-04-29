@@ -1,7 +1,7 @@
 import SideNav from './components/SideNav';
 import { ReactNode } from 'react';
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function SettingsLayout({ children }: { children: ReactNode }) {
   return (
     <div className='grid grid-cols-4 gap-8'>
       <aside className='col-span-4 lg:col-span-1'>

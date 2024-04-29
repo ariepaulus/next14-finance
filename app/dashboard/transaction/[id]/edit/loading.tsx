@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/Skeleton';
 
-export default function Loading() {
+export default function EditTransactionLoading() {
   return (
     <>
       <h1 className='text-4xl font-semibold mb-8'>Edit Transaction</h1>

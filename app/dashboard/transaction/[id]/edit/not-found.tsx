@@ -1,4 +1,4 @@
-export default function NotFound() {
+export default function EditTransactionNotFound() {
   return (
     <>
       <h1 className='text-4xl font-semibold mb-8'>Transaction Not Found</h1>
